@@ -24,3 +24,4 @@ if __name__ == "__main__":
     replaced_img = replace(fragmentos_1, fragmentos_2, yuv=True)
 
     SaveImage(replaced_img, "imgs/replaced.png")
+
