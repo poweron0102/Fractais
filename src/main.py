@@ -1,6 +1,6 @@
 import pygame as pg
 
-from src.FractaisExtrator import get_kernels, save_kernels
+from Fragmentos import get_fragmentos, save_fragmentos
 
 pg.init()
 
@@ -12,6 +12,6 @@ if __name__ == "__main__":
     img = pg.image.load("imgs/frieren.png").convert()
     img_array = pg.surfarray.array3d(img)
 
-    kernels = get_kernels(img_array, 32)
-    save_kernels(kernels, "output")
+    fragmentos = get_fragmentos(img_array, 128)
+    save_fragmentos(fragmentos, "output")
 
