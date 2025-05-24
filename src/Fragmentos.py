@@ -11,6 +11,26 @@ Fragment = NewType('Fragment', np.ndarray[np.uint8])  # Um único fragmento (ex:
 FragmentGrid = NewType('FragmentGrid', np.ndarray[np.uint8])  # Grid de fragmentos: (N, M, 16, 16, 3)
 
 
+def LoadImage(img_path: str) -> Image:
+    """
+    Loads an image from the given path.
+    :param img_path: The path to the image.
+    :return: The loaded image.
+    """
+    img = pg.image.load(img_path).convert()
+    img_array = pg.surfarray.array3d(img)
+    return img_array
+
+
+def SaveImage(img: Image, output_path: str):
+    """
+    Saves the image to the given path.
+    :param img: The image to save.
+    :param output_path: The path to save the image to.
+    """
+    pg.image.save(pg.surfarray.make_surface(img), output_path)
+
+
 @njit
 def get_fragmentos(img: Image, fragmentos_size: int) -> FragmentGrid:
     """
@@ -66,7 +86,6 @@ def img_from_fragmentos(fragmentos: FragmentGrid) -> Image:
                 fragmentos[i][j]
 
     return img
-
 
 # @njit
 # def iter_fragmentos(fragmentos: FragmentGrid) -> Fragment:
