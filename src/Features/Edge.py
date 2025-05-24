@@ -39,7 +39,7 @@ def grayscale(img: np.ndarray) -> np.ndarray:
             imgG[i, j] = np.dot(img[i, j], rgbSence)
             print(img[i, j])
 
-    return imgG.astype(np.uint8)
+    return [imgG.astype(np.uint8), imgG.astype(np.uint8), imgG.astype(np.uint8)]
 
 
 # Sobel

@@ -52,8 +52,6 @@ def get_fragmentos(img: Image, fragmentos_size: int) -> FragmentGrid:
 
     return kernels
 
-def save_fragmentos(fragmentos: np.ndarray, output_dir: str):
-
 def save_fragmentos(fragmentos: FragmentGrid, output_dir: str):
     """
     Saves the fragmentos to the output directory.
