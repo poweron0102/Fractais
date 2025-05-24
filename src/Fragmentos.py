@@ -23,7 +23,6 @@ def get_fragmentos(img: np.ndarray, fragmentos_size: int) -> np.ndarray:
 
     return kernels
 
-
 def save_fragmentos(fragmentos: np.ndarray, output_dir: str):
     """
     Saves the fragmentos to the output directory.
