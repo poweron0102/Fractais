@@ -1,5 +1,6 @@
 import numpy as np
 from numba import njit
+from scipy.optimize import linear_sum_assignment
 
 from src.Fragmentos import Image, FragmentGrid, Fragment
 
@@ -50,41 +51,38 @@ def comp_imgs(img1: np.ndarray, img2: np.ndarray) -> float:
     return similarity
 
 
-@njit
 def replace(fragmentos_1: FragmentGrid, fragmentos_2: FragmentGrid, yuv: bool = False) -> Image:
     """
-    Substitui cada fragmento de fragmentos_1 pelo fragmento mais semelhante de fragmentos_2.
-    :param fragmentos_1: Fragmentos da imagem A.
-    :param fragmentos_2: Fragmentos da imagem B.
-    :param yuv: Se True, usa o espaço de cor YUV para comparar.
-    :return: A nova imagem reconstruída.
+    Substitui cada fragmento de fragmentos_1 pelo fragmento mais semelhante (sem repetições)
+    usando emparelhamento ótimo via Hungarian Algorithm.
     """
     h, w, fh, fw, _ = fragmentos_1.shape
+    n = h * w
+
+    # Achata os grids
+    frag1_flat = fragmentos_1.reshape((n, fh, fw, 3))
+    frag2_flat = fragmentos_2.reshape((n, fh, fw, 3))
+
+    if yuv:
+        frag1_flat = np.array([covert_to_YUV(f) for f in frag1_flat])
+        frag2_flat_proc = np.array([covert_to_YUV(f) for f in frag2_flat])
+    else:
+        frag2_flat_proc = frag2_flat
+
+    # Monta matriz de custo (n x n)
+    cost_matrix = np.zeros((n, n), dtype=np.float32)
+    for i in range(n):
+        for j in range(n):
+            cost_matrix[i, j] = 1.0 - comp_imgs(frag1_flat[i], frag2_flat_proc[j])  # erro = 1 - similaridade
+
+    # Resolve o problema de atribuição
+    row_ind, col_ind = linear_sum_assignment(cost_matrix)
+
+    # Reconstrói imagem com os melhores fragmentos únicos
     output = np.zeros((h * fh, w * fw, 3), dtype=np.uint8)
-
-    # Pré-processa fragmentos_2 (em YUV se necessário)
-    f2_proc = np.empty_like(fragmentos_2)
-    for i in range(h):
-        for j in range(w):
-            f2_proc[i, j] = covert_to_YUV(fragmentos_2[i, j]) if yuv else fragmentos_2[i, j]
-
-    for i in range(h):
-        for j in range(w):
-            frag1 = fragmentos_1[i, j]
-            frag1_proc = covert_to_YUV(frag1) if yuv else frag1
-
-            best_sim = -1.0
-            best_match = fragmentos_2[0, 0]
-
-            for m in range(h):
-                for n in range(w):
-                    frag2_proc = f2_proc[m, n]
-                    sim = comp_imgs(frag1_proc, frag2_proc)
-                    if sim > best_sim:
-                        best_sim = sim
-                        best_match = fragmentos_2[m, n]
-
-            output[i*fh:(i+1)*fh, j*fw:(j+1)*fw] = best_match
+    for idx, frag_idx in zip(row_ind, col_ind):
+        i, j = divmod(idx, w)
+        output[i*fh:(i+1)*fh, j*fw:(j+1)*fw] = frag2_flat[frag_idx]
 
     return output
 
