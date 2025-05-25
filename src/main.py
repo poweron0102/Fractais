@@ -1,11 +1,6 @@
-import os
-import shutil
-
-import pygame as pg
-
-from Fragmentos import get_fragmentos, save_fragmentos, SaveImage, LoadImage
-from Features.Edge import *
 from Features.Color import replace
+from Features.Edge import *
+from Fragmentos import get_fragmentos, SaveImage, LoadImage
 
 pg.init()
 screen = pg.display.set_mode((800, 600))
@@ -25,6 +20,9 @@ def main1():
     SaveImage(replaced_img, "imgs/replaced.png")
 
 
+import os
+
+
 def main2():
     num_imgs = len(os.listdir("imgs/frames_bad_apple/"))
 
@@ -39,9 +37,13 @@ def main2():
 
         replaced_img = replace(fragmentos_1, fragmentos_2, yuv=True)
 
-        screen.fill((0, 0, 0))
         screen.blit(pg.surfarray.make_surface(replaced_img), (0, 0))
         pg.display.flip()
+
+        # loading bar on terminal
+        print(f"\rLoading {i+1}/{num_imgs} -> {(i + 1) / num_imgs * 100:.2f}%", end="")
+        SaveImage(replaced_img, f"imgs/frames_bad_apple_replaced/{i+1:03d}.jpg")
+
 
 
 if __name__ == "__main__":
