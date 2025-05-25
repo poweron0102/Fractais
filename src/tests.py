@@ -1,12 +1,27 @@
-import numpy as np    
+import os
+import shutil
 
-# numpy array of zeros 5x5
-zeros = np.zeros((5, 5), dtype=np.uint8)
+import pygame as pg
 
-# numpy array of ones 3x3
-ones = np.ones((3, 3), dtype=np.uint8)
+from Fragmentos import get_fragmentos, save_fragmentos, SaveImage, LoadImage
+from Features.Edge import *
+from Features.Color import replace, covert_to_YUV
 
-# a 5x5 numpy array with the ones in the middle and the rest zeros
-middle = np.zeros((5, 5))
-middle[2:, 2:] += ones 
-print(middle)
+pg.init()
+
+
+if __name__ == "__main__":
+    print("Hello, World!")
+
+    screen = pg.display.set_mode((800, 600))
+
+    img_1 = LoadImage("imgs/frieren_0.png")
+
+    img_1 = grayscale(img_1)
+    img_1 = gaussian_blur(img_1)
+    img_1 = gaussian_blur(img_1)
+    img_1 = sobel(img_1)
+
+
+
+    save_array_as_image(img_1, "output", "imgout.png")
