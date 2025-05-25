@@ -3,6 +3,8 @@ import os
 import numpy as np
 import pygame as pg
 
+
+from numba import njit
 from Features.Color import replace, covert_to_YUV
 
 def save_array_as_image(array: np.ndarray, output_dir: str, img_name: str = "img.png"):
@@ -45,6 +47,8 @@ def grayscale(img: np.ndarray) -> np.ndarray:
 
     return img_gray
 # Sobel
+
+@njit
 def convolve(img: np.ndarray, kernel: np.ndarray) -> np.ndarray:
     kernel_height, kernel_width = kernel.shape
     height, width, _ = img.shape
@@ -53,18 +57,18 @@ def convolve(img: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 
     for i in range(img.shape[0]):
         for j in range(img.shape[1]):
-            for k in range(img.shape[2]):
-                sum = 0
-                for m in range(kernel_height):
-                    for n in range(kernel_width):
-                        x = i + m - kernel_height // 2
-                        y = j + n - kernel_width // 2
-                        if 0 <= x < img.shape[0] and 0 <= y < img.shape[1]:
-                            sum += img[x, y, k] * kernel[m, n]
-                img_convolved[i, j, k] = sum
+            sum = 0
+            for m in range(kernel_height):
+                for n in range(kernel_width):
+                    x = i + m - kernel_height // 2
+                    y = j + n - kernel_width // 2
+                    if 0 <= x < img.shape[0] and 0 <= y < img.shape[1]:
+                        sum += img[x, y, 0] * kernel[m, n]
+            img_convolved[i, j, :] = sum
 
-    return img_convolved[1:height + 2, 1:width + 2]
+    return img_convolved[1:height + 1, 1:width + 1]
 
+# @njit
 def sobel(img: np.ndarray) -> np.ndarray:
     kernel_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
     kernel_y = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
@@ -73,6 +77,13 @@ def sobel(img: np.ndarray) -> np.ndarray:
     img_y = convolve(img, kernel_y)
 
     img_sobel = np.sqrt(img_x ** 2 + img_y ** 2)
+
+    # Give a hue based on the angle
+    # img_sobel = angle_to_color(np.arctan2(img_y, img_x))
+
     img_sobel = np.clip(img_sobel, 0, 255).astype(np.uint8)
 
     return img_sobel
+
+def angle_to_color(angle: np.ndarray) -> np.ndarray:
+    pass
