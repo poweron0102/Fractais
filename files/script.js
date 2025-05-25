@@ -24,6 +24,8 @@ document.getElementById("updateBtn").addEventListener("click", function () {
   const receptoraInput = document.getElementById("receptora");
   const doadoraInput = document.getElementById("doadora");
 
+  const date = new Date();
+
   const formData = new FormData();
 
   // Adiciona arquivos
@@ -54,9 +56,61 @@ document.getElementById("updateBtn").addEventListener("click", function () {
         const preview = document.getElementById("preview");
         preview.src = "preview.png"+ "?t=" + new Date().getTime(); // Adiciona um timestamp para evitar cache
 
+        // Make a notification sound
+        const audio = new Audio("/notification.mp3");
+        audio.play();
+
+        // Exibe uma alerta de sucesso com o tempo em minutos e segundos da operação.
+        const elapsedTime = ((Date.now() - date.getTime()) / 1000).toFixed(2);
+        alert(`Atualização concluída! Tempo gasto: ${Math.floor(elapsedTime / 60)} minutos e ${elapsedTime % 60} segundos.`);
 
     })
     .catch(error => {
       console.error("Erro ao enviar dados:", error);
     });
 });
+
+
+function setupDragAndDrop(previewId, inputId) {
+  const dropZone = document.getElementById(previewId);
+
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("dragover");
+  });
+
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith("image/")) {
+      previewImage(file, previewId);
+      document.getElementById(inputId).files = e.dataTransfer.files;
+    }
+  });
+}
+
+setupDragAndDrop("receptoraPreview", "receptora");
+setupDragAndDrop("doadoraPreview", "doadora");
+
+const toggleBtn = document.getElementById("toggleThemeBtn");
+
+function setTheme(dark) {
+  document.body.classList.toggle("dark", dark);
+  toggleBtn.textContent = dark ? "☀️ Modo Claro" : "🌙 Modo Escuro";
+  localStorage.setItem("darkTheme", dark);
+}
+
+toggleBtn.addEventListener("click", () => {
+  const isDark = document.body.classList.contains("dark");
+  setTheme(!isDark);
+});
+
+// Inicializa tema salvo
+setTheme(localStorage.getItem("darkTheme") === "true");
+
+

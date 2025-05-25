@@ -42,6 +42,16 @@ async def js():
     return FileResponse("files/script.js")
 
 
+@app.get("/favicon.ico")
+async def favicon():
+    return FileResponse("files/favicon.png")
+
+
+@app.get("/notification.mp3")
+async def notification():
+    return FileResponse("files/notification.mp3")
+
+
 # ----------- API /update -----------
 
 @app.post("/update")
@@ -60,6 +70,10 @@ async def update(
     Bordas: {bordas}
     Media Cores: {media_cores}
     """)
+
+    # Verifica se o diretório de uploads existe, caso contrário, cria
+    if not os.path.exists("uploads"):
+        os.makedirs("uploads")
 
     # Salva imagens recebidas
     if receptora:
