@@ -2,6 +2,9 @@ pygame-ce >= 2.5.3
 numpy >= 2.2.6
 numba >= 0.61.2
 scipy >= 1.15.3
+fastapi >= 0.115.12
+python-multipart >= 0.0.20
+uvicorn >= 0.34.2
 
 
 

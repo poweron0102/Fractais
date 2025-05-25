@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor de Mosaico</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <img class="preview" id="preview" src="/preview" alt="Mosaic">
+    </div>
+
+    <div class="right-panel">
+      <div class="image-inputs">
+        <div class="input-group">
+          <input type="file" id="receptora">
+          <div class="image-preview" id="receptoraPreview"></div>
+        </div>
+        <div class="input-group">
+          <input type="file" id="doadora">
+          <div class="image-preview" id="doadoraPreview"></div>
+        </div>
+      </div>
+
+      <div class="parameters">
+
+        <div class="param-group">
+          <label for="tamanho">Tamanho do fragmento</label>
+          <input type="number" id="tamanho" value="16">
+        </div>
+
+        <div class="param-group">
+          <label for="diferenca">Diferença absoluta</label>
+          <input type="number" id="diferenca" value="10">
+        </div>
+
+        <div class="param-group">
+          <label for="bordas">Bordas</label>
+          <input type="number" id="bordas" value="3">
+        </div>
+
+        <div class="param-group">
+          <label for="media">Media cores</label>
+          <input type="number" id="media" value="5">
+        </div>
+
+      </div>
+
+      <div class="button-row">
+        <button id="updateBtn">Update</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

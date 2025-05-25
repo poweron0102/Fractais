@@ -1,6 +1,8 @@
+import io
 import os
 
 import pygame as pg
+from fastapi import UploadFile
 from numba import njit
 import numpy as np
 
@@ -20,6 +22,17 @@ def LoadImage(img_path: str) -> Image:
     img = pg.image.load(img_path).convert()
     img_array = pg.surfarray.array3d(img)
     return img_array
+
+
+# def FromWeb(img: UploadFile) -> Image:
+#     """
+#     Converts an image from a web upload to a numpy array.
+#     :param img: The image to convert.
+#     :return: The converted image.
+#     """
+#     img_array = pg.image.load(io.BytesIO(img.file.read())).convert()
+#     img_array = pg.surfarray.array3d(img_array)
+#     return img_array
 
 
 def SaveImage(img: Image, output_path: str):
@@ -51,6 +64,7 @@ def get_fragmentos(img: Image, fragmentos_size: int) -> FragmentGrid:
             kernels[i // fragmentos_size][j // fragmentos_size] = img[i:i + fragmentos_size, j:j + fragmentos_size]
 
     return kernels
+
 
 def save_fragmentos(fragmentos: FragmentGrid, output_dir: str):
     """

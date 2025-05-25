@@ -2,7 +2,7 @@ import numpy as np
 from numba import njit
 from scipy.optimize import linear_sum_assignment
 
-from Fragmentos import Image, FragmentGrid, Fragment
+from src.Fragmentos import Image, FragmentGrid, Fragment
 
 
 @njit
