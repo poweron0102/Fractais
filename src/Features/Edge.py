@@ -33,7 +33,7 @@ def gaussian_blur(img: np.ndarray) -> np.ndarray:
                 imgB[i, j] = (imgB[i, j-1] * kernel[0] + imgB[i, j] * kernel[1] + imgB[i, j+1] * kernel[2])
                 imgB[i, j] = (imgB[i-1, j] * kernel[0] + imgB[i, j] * kernel[1] + imgB[i+1, j] * kernel[2])
     
-    return imgB[1:height + 1, 1:width + 1]
+    return imgB[1:height +1, 1:width+1]
 
 # grayscale
 def grayscale(img: np.ndarray) -> np.ndarray:
@@ -54,19 +54,20 @@ def convolve(img: np.ndarray, kernel: np.ndarray) -> np.ndarray:
     height, width, _ = img.shape
 
     img_convolved = np.zeros((height + 2, width + 2, 3), dtype=np.uint32)
+    img_convolved2 = img_convolved.copy()
+    img_convolved2[1:height + 1, 1:width + 1, :] = img
 
-    for i in range(img.shape[0]):
-        for j in range(img.shape[1]):
+    for i in range(1, img.shape[0] +1):
+        for j in range(1, img.shape[1] +1):
             sum = 0
             for m in range(kernel_height):
                 for n in range(kernel_width):
                     x = i + m - kernel_height // 2
                     y = j + n - kernel_width // 2
-                    if 0 <= x < img.shape[0] and 0 <= y < img.shape[1]:
-                        sum += img[x, y, 0] * kernel[m, n]
+                    sum += img_convolved2[x, y, 0] * kernel[m, n]
             img_convolved[i, j, :] = sum
 
-    return img_convolved[1:height + 1, 1:width + 1]
+    return img_convolved[1:height +1, 1:width +1]
 
 # @njit
 def sobel(img: np.ndarray) -> np.ndarray:
