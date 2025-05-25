@@ -8,9 +8,6 @@
 </head>
 <body>
   <div class="container">
-    <div class="left-panel">
-      <img class="preview" id="preview" src="/preview" alt="Mosaic">
-    </div>
 
     <div class="right-panel">
       <div class="image-inputs">
@@ -25,7 +22,6 @@
       </div>
 
       <div class="parameters">
-
         <div class="param-group">
           <label for="tamanho">Tamanho do fragmento</label>
           <input type="number" id="tamanho" value="16">
@@ -45,16 +41,18 @@
           <label for="media">Media cores</label>
           <input type="number" id="media" value="5">
         </div>
-
       </div>
 
       <div class="button-row">
         <button id="updateBtn">Update</button>
         <button id="toggleThemeBtn">🌙 Modo Escuro</button>
-
       </div>
-
     </div>
+
+    <div class="left-panel">
+      <img class="preview" id="preview" src="/preview" alt="Mosaic">
+    </div>
+
   </div>
 
   <script src="script.js"></script>

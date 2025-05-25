@@ -94,7 +94,10 @@ input[type="file"] {
 }
 
 .button-row {
+  display: flex;
   margin-top: 10px;
+  width: 100%;
+  justify-content: space-around;
 }
 
 button {
