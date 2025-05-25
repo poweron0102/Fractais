@@ -1,3 +1,5 @@
 /output
 /outputFrag
 /src/__pycache__
+/imgs/frames_bad_apple
+*.pyc

@@ -63,7 +63,7 @@ def convolve(img: np.ndarray, kernel: np.ndarray) -> np.ndarray:
                             sum += img[x, y, k] * kernel[m, n]
                 img_convolved[i, j, k] = sum
 
-    return img_convolved[1:height + 1, 1:width + 1]
+    return img_convolved[1:height + 2, 1:width + 2]
 
 def sobel(img: np.ndarray) -> np.ndarray:
     kernel_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
