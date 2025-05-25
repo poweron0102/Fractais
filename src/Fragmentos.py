@@ -52,6 +52,7 @@ def get_fragmentos(img: Image, fragmentos_size: int) -> FragmentGrid:
 
     return kernels
 
+
 def save_fragmentos(fragmentos: FragmentGrid, output_dir: str):
     """
     Saves the fragmentos to the output directory.
@@ -69,7 +70,7 @@ def save_fragmentos(fragmentos: FragmentGrid, output_dir: str):
             pg.image.save(pg.surfarray.make_surface(kernel), filename)
 
 
-@njit
+@njit()
 def img_from_fragmentos(fragmentos: FragmentGrid) -> Image:
     """
     Reconstructs the image from the fragmentos.

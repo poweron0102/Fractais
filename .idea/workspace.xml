@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="Better typing">
+    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="mais frieren">
+      <change afterPath="$PROJECT_DIR$/src/Gui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Fragmentos.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Fragmentos.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +166,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748125590696</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Muito top">
+      <option name="closed" value="true" />
+      <created>1748130507595</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1748130507595</updated>
+    </task>
+    <task id="LOCAL-00012" summary="mais frieren">
+      <option name="closed" value="true" />
+      <created>1748132820174</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1748132820174</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -190,6 +207,8 @@
     <MESSAGE value="working 2" />
     <MESSAGE value="working 3" />
     <MESSAGE value="Better typing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Better typing" />
+    <MESSAGE value="Muito top" />
+    <MESSAGE value="mais frieren" />
+    <option name="LAST_COMMIT_MESSAGE" value="mais frieren" />
   </component>
 </project>
