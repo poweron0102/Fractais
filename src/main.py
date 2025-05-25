@@ -29,11 +29,12 @@ def main2():
     future: int = 100
 
     for i in range(num_imgs):
+        time = pg.time.get_ticks()
         img_1 = LoadImage(f"imgs/frames_bad_apple/{i+1:03d}.jpg")
         img_2 = LoadImage(f"imgs/frames_bad_apple/{((i + future) % num_imgs) + 1:03d}.jpg")
 
-        fragmentos_1 = get_fragmentos(img_1, 16)
-        fragmentos_2 = get_fragmentos(img_2, 16)
+        fragmentos_1 = get_fragmentos(img_1, 8)
+        fragmentos_2 = get_fragmentos(img_2, 8)
 
         replaced_img = replace(fragmentos_1, fragmentos_2, yuv=True)
 
@@ -41,7 +42,8 @@ def main2():
         pg.display.flip()
 
         # loading bar on terminal
-        print(f"\rLoading {i+1}/{num_imgs} -> {(i + 1) / num_imgs * 100:.2f}%", end="")
+        elapsed_time = pg.time.get_ticks() - time
+        print(f"\rLoading {i+1}/{num_imgs} -> {(i + 1) / num_imgs * 100:.2f}% | it will take {elapsed_time * (num_imgs - i - 1) / 60000:.2f} minutes", end="")
         SaveImage(replaced_img, f"imgs/frames_bad_apple_replaced/{i+1:03d}.jpg")
 
 
