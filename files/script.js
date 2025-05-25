@@ -43,6 +43,10 @@ document.getElementById("updateBtn").addEventListener("click", function () {
   formData.append("bordas", document.getElementById("bordas").value);
   formData.append("media_cores", document.getElementById("media").value);
 
+
+  const updateBtn = document.getElementById("updateBtn");
+  updateBtn.disabled = true;
+
   // Envia para o backend
   fetch("/update", {
     method: "POST",
@@ -50,7 +54,7 @@ document.getElementById("updateBtn").addEventListener("click", function () {
   })
     .then(response => response.json())
     .then(data => {
-      console.log("Resposta do backend:", data);
+        console.log("Resposta do backend:", data);
         const elapsedTime = ((Date.now() - date.getTime()) / 1000).toFixed(2);
         // Atualiza a imagem na página
         const preview = document.getElementById("preview");
@@ -65,6 +69,7 @@ document.getElementById("updateBtn").addEventListener("click", function () {
           // Exibe uma alerta de sucesso com o tempo em minutos e segundos da operação.
             alert(`Atualização concluída! Tempo gasto: ${Math.floor(elapsedTime / 60)} minutos e ${elapsedTime % 60} segundos.`);
         });
+        updateBtn.disabled = false;
     })
     .catch(error => {
       console.error("Erro ao enviar dados:", error);
