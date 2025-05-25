@@ -51,7 +51,7 @@ document.getElementById("updateBtn").addEventListener("click", function () {
     .then(response => response.json())
     .then(data => {
       console.log("Resposta do backend:", data);
-
+        const elapsedTime = ((Date.now() - date.getTime()) / 1000).toFixed(2);
         // Atualiza a imagem na página
         const preview = document.getElementById("preview");
         preview.src = "preview.png"+ "?t=" + new Date().getTime(); // Adiciona um timestamp para evitar cache
@@ -60,10 +60,11 @@ document.getElementById("updateBtn").addEventListener("click", function () {
         const audio = new Audio("/notification.mp3");
         audio.play();
 
-        // Exibe uma alerta de sucesso com o tempo em minutos e segundos da operação.
-        const elapsedTime = ((Date.now() - date.getTime()) / 1000).toFixed(2);
-        alert(`Atualização concluída! Tempo gasto: ${Math.floor(elapsedTime / 60)} minutos e ${elapsedTime % 60} segundos.`);
-
+        // espera o som terminar
+        audio.addEventListener("ended", () => {
+          // Exibe uma alerta de sucesso com o tempo em minutos e segundos da operação.
+            alert(`Atualização concluída! Tempo gasto: ${Math.floor(elapsedTime / 60)} minutos e ${elapsedTime % 60} segundos.`);
+        });
     })
     .catch(error => {
       console.error("Erro ao enviar dados:", error);

@@ -44,7 +44,8 @@ def comp_imgs(img1: np.ndarray, img2: np.ndarray) -> float:
     :return: The similarity between the two images.
     """
     # Calculate the difference between the two images
-    diff = np.abs(img1 - img2)
+    # diff = np.abs(img1 - img2)
+    diff = np.abs(img1.astype(np.int32) - img2.astype(np.int32))
 
     # Calculate the similarity
     similarity = 1 - np.sum(diff) / (img1.shape[0] * img1.shape[1] * 3 * 255)
