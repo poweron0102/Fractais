@@ -9,10 +9,10 @@ from fastapi.responses import FileResponse, HTMLResponse
 from src.Fragmentos import get_fragmentos, SaveImage, LoadImage
 from src.Features.Color import replace
 
-import pygame as pg
+# import pygame as pg
 
-pg.init()
-screen = pg.display.set_mode((1, 1), pg.NOFRAME)
+# pg.init()
+# screen = pg.display.set_mode((1, 1), pg.NOFRAME)
 
 app = FastAPI()
 

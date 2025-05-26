@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="remove pygame and add fake treads">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="click button for celular">
+      <change beforePath="$PROJECT_DIR$/src/web_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/web_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748287007112</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="click button for celular">
+      <option name="closed" value="true" />
+      <created>1748288021720</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1748288021720</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -286,6 +294,7 @@
     <MESSAGE value="better web" />
     <MESSAGE value="some fixes" />
     <MESSAGE value="remove pygame and add fake treads" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove pygame and add fake treads" />
+    <MESSAGE value="click button for celular" />
+    <option name="LAST_COMMIT_MESSAGE" value="click button for celular" />
   </component>
 </project>
