@@ -120,4 +120,11 @@ toggleBtn.addEventListener("click", () => {
 // Inicializa tema salvo
 setTheme(localStorage.getItem("darkTheme") === "true");
 
+document.getElementById("receptoraPreview").addEventListener("click", function() {
+  document.getElementById("receptora").click();
+});
+
+document.getElementById("doadoraPreview").addEventListener("click", function() {
+  document.getElementById("doadora").click();
+});
 
