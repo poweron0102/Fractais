@@ -7,5 +7,6 @@ python-multipart >= 0.0.20
 uvicorn >= 0.34.2
 opencv-python >= 4.11.0.86
 tqdm >= 4.67.1
+pillow >= 11.2.1
 
 

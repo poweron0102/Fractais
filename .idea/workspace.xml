@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="click button for celular">
-      <change beforePath="$PROJECT_DIR$/src/web_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/web_main.py" afterDir="false" />
+    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="removed pygame again">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,7 +266,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748288021720</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="removed pygame again">
+      <option name="closed" value="true" />
+      <created>1748288726419</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1748288726419</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -295,6 +304,7 @@
     <MESSAGE value="some fixes" />
     <MESSAGE value="remove pygame and add fake treads" />
     <MESSAGE value="click button for celular" />
-    <option name="LAST_COMMIT_MESSAGE" value="click button for celular" />
+    <MESSAGE value="removed pygame again" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed pygame again" />
   </component>
 </project>
