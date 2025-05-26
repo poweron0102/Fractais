@@ -38,6 +38,7 @@ document.getElementById("updateBtn").addEventListener("click", function () {
   }
 
   // Adiciona parâmetros
+    formData.append("yuv", document.getElementById("yuv").value);
   formData.append("tamanho", document.getElementById("tamanho").value);
   formData.append("diferenca_absoluta", document.getElementById("diferenca").value);
   formData.append("bordas", document.getElementById("bordas").value);

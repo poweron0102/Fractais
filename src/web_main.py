@@ -58,6 +58,7 @@ async def notification():
 async def update(
         receptora: Optional[UploadFile] = File(None),
         doadora: Optional[UploadFile] = File(None),
+        yuv: bool = Form(True),
         tamanho: int = Form(...),
         diferenca_absoluta: int = Form(...),
         bordas: int = Form(...),
@@ -65,6 +66,7 @@ async def update(
 ):
     print("Recebendo parâmetros...")
     print(f"""
+    YUV: {yuv}
     Tamanho: {tamanho}
     Diferenca Absoluta: {diferenca_absoluta}
     Bordas: {bordas}
@@ -94,7 +96,7 @@ async def update(
         fragmentos_1 = get_fragmentos(img_1, tamanho)
         fragmentos_2 = get_fragmentos(img_2, tamanho)
 
-        replaced_img = replace(fragmentos_1, fragmentos_2, yuv=True)
+        replaced_img = replace(fragmentos_1, fragmentos_2, yuv=yuv)
 
         SaveImage(replaced_img, "imgs/preview.png")
 
