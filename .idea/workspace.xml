@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="some fixes">
+      <change beforePath="$PROJECT_DIR$/.idea/Fragmentos.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Fragmentos.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/imgs/preview.png" beforeDir="false" afterPath="$PROJECT_DIR$/imgs/preview.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Fragmentos.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Fragmentos.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,6 +34,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "poweron0102"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/poweron0102/Fractais.git",
+    "accountId": "5186d812-d7bf-42f1-868b-3f447d356f4c"
+  }
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -43,17 +58,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.web_main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/natha/PycharmProjects/Fragmentos/Fragmentos/src/web_main.py&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Python.main.executor": "Run",
+    "Python.web_main.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Nathan Pinheiro/Documents/GitHub/Fractais/src/main.py",
+    "settings.editor.selected.configurable": "proofread"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\natha\PycharmProjects\Fragmentos\Fragmentos\src" />
@@ -69,9 +87,8 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.13 (Fragmentos)" />
-      <option name="WORKING_DIRECTORY" value="C:\Users\natha\PycharmProjects\Fragmentos\Fragmentos" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\Nathan Pinheiro\Documents\GitHub\Fractais" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
@@ -92,7 +109,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.13 (Fragmentos)" />
       <option name="WORKING_DIRECTORY" value="C:\Users\natha\PycharmProjects\Fragmentos\Fragmentos" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -114,7 +130,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-09665e90c3a7-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.15026.15" />
+        <option value="bundled-python-sdk-1b1018131e27-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.180" />
       </set>
     </attachedChunks>
   </component>

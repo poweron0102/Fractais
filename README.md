@@ -1,7 +1,7 @@
-pip install requirements.txt
+pip install -r requirements.txt
 
 ```shell
-uvicorn web_main:app --reload
+uvicorn src.web_main:app --reload
 ```
 
 
