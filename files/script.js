@@ -1,130 +1,150 @@
-document.getElementById("receptora").addEventListener("change", function (event) {
-  previewImage(event.target.files[0], "receptoraPreview");
-});
-
-document.getElementById("doadora").addEventListener("change", function (event) {
-  previewImage(event.target.files[0], "doadoraPreview");
-});
-
-function previewImage(file, elementId) {
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const preview = document.getElementById(elementId);
-    preview.style.backgroundImage = `url(${e.target.result})`;
-    preview.style.backgroundSize = "contain";
-    preview.style.backgroundRepeat = "no-repeat";
-    preview.style.backgroundPosition = "center";
-  };
-  reader.readAsDataURL(file);
-}
-
-
-
-document.getElementById("updateBtn").addEventListener("click", function () {
+document.addEventListener("DOMContentLoaded", () => {
+  // --- Manipuladores de upload de imagem ---
   const receptoraInput = document.getElementById("receptora");
   const doadoraInput = document.getElementById("doadora");
+  const receptoraPreview = document.getElementById("receptoraPreview");
+  const doadoraPreview = document.getElementById("doadoraPreview");
 
-  const date = new Date();
+  receptoraInput.addEventListener("change", (event) => {
+    previewImage(event.target.files[0], "receptoraPreview");
+  });
 
-  const formData = new FormData();
+  doadoraInput.addEventListener("change", (event) => {
+    previewImage(event.target.files[0], "doadoraPreview");
+  });
 
-  // Adiciona arquivos
-  if (receptoraInput.files[0]) {
-    formData.append("receptora", receptoraInput.files[0]);
+  // Permite clicar na área de preview para selecionar o arquivo
+  receptoraPreview.addEventListener("click", () => receptoraInput.click());
+  doadoraPreview.addEventListener("click", () => doadoraInput.click());
+
+  // --- Função de Preview da Imagem ---
+  function previewImage(file, elementId) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const preview = document.getElementById(elementId);
+      preview.style.backgroundImage = `url(${e.target.result})`;
+    };
+    reader.readAsDataURL(file);
   }
 
-  if (doadoraInput.files[0]) {
-    formData.append("doadora", doadoraInput.files[0]);
+  // --- Lógica de Drag and Drop ---
+  function setupDragAndDrop(previewId, inputId) {
+    const dropZone = document.getElementById(previewId);
+    const input = document.getElementById(inputId);
+
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.classList.add("dragover");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("dragover");
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("dragover");
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith("image/")) {
+        input.files = e.dataTransfer.files; // Associa o arquivo ao input
+        previewImage(file, previewId);
+      }
+    });
   }
 
-  // Adiciona parâmetros
-    formData.append("yuv", document.getElementById("yuv").value);
-  formData.append("tamanho", document.getElementById("tamanho").value);
-  formData.append("diferenca_absoluta", document.getElementById("diferenca").value);
-  formData.append("bordas", document.getElementById("bordas").value);
-  formData.append("media_cores", document.getElementById("media").value);
+  setupDragAndDrop("receptoraPreview", "receptora");
+  setupDragAndDrop("doadoraPreview", "doadora");
+
+  // --- Atualização dos valores dos sliders ---
+  const pesoCorSlider = document.getElementById("peso_cor");
+  const pesoVggSlider = document.getElementById("peso_vgg");
+  const pesoCorValue = document.getElementById("pesoCorValue");
+  const pesoVggValue = document.getElementById("pesoVggValue");
+
+  pesoCorSlider.addEventListener("input", (e) => {
+    pesoCorValue.textContent = parseFloat(e.target.value).toFixed(1);
+  });
+
+  pesoVggSlider.addEventListener("input", (e) => {
+    pesoVggValue.textContent = parseFloat(e.target.value).toFixed(1);
+  });
 
 
+  // --- Botão de Update ---
   const updateBtn = document.getElementById("updateBtn");
-  updateBtn.disabled = true;
+  updateBtn.addEventListener("click", () => {
+    // Verifica se ambas as imagens foram selecionadas
+    if (!receptoraInput.files[0] || !doadoraInput.files[0]) {
+      alert("Por favor, selecione a imagem receptora e a doadora.");
+      return;
+    }
 
-  // Envia para o backend
-  fetch("/update", {
-    method: "POST",
-    body: formData
-  })
-    .then(response => response.json())
+    const startTime = Date.now();
+    updateBtn.disabled = true;
+    updateBtn.textContent = "Processando...";
+
+    const formData = new FormData();
+    formData.append("receptora", receptoraInput.files[0]);
+    formData.append("doadora", doadoraInput.files[0]);
+    formData.append("tamanho", document.getElementById("tamanho").value);
+    // Envia 'true' ou 'false' com base no estado do checkbox
+    formData.append("yuv", document.getElementById("yuv").checked);
+    // Envia os novos valores dos pesos
+    formData.append("peso_cor", pesoCorSlider.value);
+    formData.append("peso_vgg", pesoVggSlider.value);
+
+    // Envia para o backend
+    fetch("/update", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => {
+      if (!response.ok) {
+          throw new Error(`Erro na rede: ${response.statusText}`);
+      }
+      return response.json();
+    })
     .then(data => {
-        console.log("Resposta do backend:", data);
-        const elapsedTime = ((Date.now() - date.getTime()) / 1000).toFixed(2);
-        // Atualiza a imagem na página
-        const preview = document.getElementById("preview");
-        preview.src = "preview.png"+ "?t=" + new Date().getTime(); // Adiciona um timestamp para evitar cache
+      console.log("Resposta do backend:", data);
+      const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
 
-        // Make a notification sound
-        const audio = new Audio("/notification.mp3");
-        audio.play();
+      // Atualiza a imagem de preview na página
+      const preview = document.getElementById("preview");
+      // Adiciona um timestamp para evitar o cache da imagem pelo navegador
+      preview.src = `preview.png?t=${new Date().getTime()}`;
 
-        // espera o som terminar
-        audio.addEventListener("ended", () => {
-          // Exibe uma alerta de sucesso com o tempo em minutos e segundos da operação.
-            alert(`Atualização concluída! Tempo gasto: ${Math.floor(elapsedTime / 60)} minutos e ${elapsedTime % 60} segundos.`);
-        });
-        updateBtn.disabled = false;
+      // Toca um som de notificação
+      const audio = new Audio("/notification.mp3");
+      audio.play();
+
+      // Exibe uma mensagem de sucesso
+      alert(`Atualização concluída! Tempo gasto: ${Math.floor(elapsedTime / 60)}m ${Math.round(elapsedTime % 60)}s.`);
     })
     .catch(error => {
       console.error("Erro ao enviar dados:", error);
+      alert(`Ocorreu um erro: ${error.message}. Verifique o console para mais detalhes.`);
+    })
+    .finally(() => {
+        // Reabilita o botão após a conclusão
+        updateBtn.disabled = false;
+        updateBtn.textContent = "Update";
     });
-});
-
-
-function setupDragAndDrop(previewId, inputId) {
-  const dropZone = document.getElementById(previewId);
-
-  dropZone.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropZone.classList.add("dragover");
   });
 
-  dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("dragover");
+  // --- Tema Claro/Escuro ---
+  const toggleBtn = document.getElementById("toggleThemeBtn");
+  function setTheme(dark) {
+    document.body.classList.toggle("dark", dark);
+    toggleBtn.textContent = dark ? "☀️ Modo Claro" : "🌙 Modo Escuro";
+    localStorage.setItem("darkTheme", dark ? "true" : "false");
+  }
+
+  toggleBtn.addEventListener("click", () => {
+    const isDark = document.body.classList.contains("dark");
+    setTheme(!isDark);
   });
 
-  dropZone.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropZone.classList.remove("dragover");
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith("image/")) {
-      previewImage(file, previewId);
-      document.getElementById(inputId).files = e.dataTransfer.files;
-    }
-  });
-}
-
-setupDragAndDrop("receptoraPreview", "receptora");
-setupDragAndDrop("doadoraPreview", "doadora");
-
-const toggleBtn = document.getElementById("toggleThemeBtn");
-
-function setTheme(dark) {
-  document.body.classList.toggle("dark", dark);
-  toggleBtn.textContent = dark ? "☀️ Modo Claro" : "🌙 Modo Escuro";
-  localStorage.setItem("darkTheme", dark);
-}
-
-toggleBtn.addEventListener("click", () => {
-  const isDark = document.body.classList.contains("dark");
-  setTheme(!isDark);
+  // Inicializa o tema salvo no localStorage
+  setTheme(localStorage.getItem("darkTheme") === "true");
 });
-
-// Inicializa tema salvo
-setTheme(localStorage.getItem("darkTheme") === "true");
-
-document.getElementById("receptoraPreview").addEventListener("click", function() {
-  document.getElementById("receptora").click();
-});
-
-document.getElementById("doadoraPreview").addEventListener("click", function() {
-  document.getElementById("doadora").click();
-});
-
