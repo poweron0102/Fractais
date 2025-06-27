@@ -69,7 +69,7 @@ def replace(
             # O custo é o inverso da similaridade (1 - similaridade)
             cost_matrix[i, j] = 1.0 - final_similarity
 
-    # Resolve o problema de atribuição com o algoritmo Húngaro para encontrar o menor custo total
+    # Resolve o problema de atribuição com o algoritmo húngaro para encontrar o menor custo total
     print("Resolvendo atribuição com Algoritmo Húngaro...")
     row_ind, col_ind = linear_sum_assignment(cost_matrix)
 

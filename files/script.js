@@ -63,12 +63,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const pesoVggValue = document.getElementById("pesoVggValue");
 
   pesoCorSlider.addEventListener("input", (e) => {
-    pesoCorValue.textContent = parseFloat(e.target.value).toFixed(1);
-  });
+  const pesoCor = parseFloat(e.target.value);
+  const pesoVgg = 1 - pesoCor;
+  pesoCorValue.textContent = pesoCor.toFixed(1);
+  pesoVggSlider.value = pesoVgg.toFixed(1);
+  pesoVggValue.textContent = pesoVgg.toFixed(1);
+});
 
-  pesoVggSlider.addEventListener("input", (e) => {
-    pesoVggValue.textContent = parseFloat(e.target.value).toFixed(1);
-  });
+pesoVggSlider.addEventListener("input", (e) => {
+  const pesoVgg = parseFloat(e.target.value);
+  const pesoCor = 1 - pesoVgg;
+  pesoVggValue.textContent = pesoVgg.toFixed(1);
+  pesoCorSlider.value = pesoCor.toFixed(1);
+  pesoCorValue.textContent = pesoCor.toFixed(1);
+});
 
 
   // --- Botão de Update ---
