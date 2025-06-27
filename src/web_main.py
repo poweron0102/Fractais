@@ -7,16 +7,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse
 
 from src.Fragmentos import get_fragmentos, SaveImage, LoadImage
-from src.Features.Color import replace
-
-# import pygame as pg
-
-# pg.init()
-# screen = pg.display.set_mode((1, 1), pg.NOFRAME)
+# Corrigindo o caminho de importação para a função 'replace'
+from src.Replace import replace
 
 app = FastAPI()
 
-# Permite acesso do frontend local
+# Permite acesso do frontend local (CORS)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -25,7 +21,7 @@ app.add_middleware(
 )
 
 
-# ----------- ROTEAMENTO DE ARQUIVOS -----------
+# ----------- ROTEAMENTO DE ARQUIVOS ESTÁTICOS -----------
 
 @app.get("/", response_class=HTMLResponse)
 async def index():
@@ -60,24 +56,34 @@ async def update(
         doadora: Optional[UploadFile] = File(None),
         yuv: bool = Form(True),
         tamanho: int = Form(...),
-        diferenca_absoluta: int = Form(...),
-        bordas: int = Form(...),
-        media_cores: int = Form(...)
+        # Novos parâmetros para os pesos da similaridade
+        peso_cor: float = Form(...),
+        peso_vgg: float = Form(...)
 ):
+    # Normaliza os pesos para que a soma seja 1, garantindo uma ponderação consistente.
+    total_peso = peso_cor + peso_vgg
+    if total_peso > 0:
+        peso_cor_norm = peso_cor / total_peso
+        peso_vgg_norm = peso_vgg / total_peso
+    else:  # Caso de emergência para evitar divisão por zero
+        peso_cor_norm = 1.0
+        peso_vgg_norm = 0.0
+
+    weights = (peso_cor_norm, peso_vgg_norm)
+
     print("Recebendo parâmetros...")
     print(f"""
     YUV: {yuv}
-    Tamanho: {tamanho}
-    Diferenca Absoluta: {diferenca_absoluta}
-    Bordas: {bordas}
-    Media Cores: {media_cores}
+    Tamanho do fragmento: {tamanho}
+    Pesos Normalizados (Cor, VGG): {weights}
     """)
 
     # Verifica se o diretório de uploads existe, caso contrário, cria
     if not os.path.exists("uploads"):
         os.makedirs("uploads")
 
-    # Salva imagens recebidas
+    # Salva as imagens recebidas no servidor
+    path_r, path_d = None, None
     if receptora:
         path_r = f"uploads/{receptora.filename}"
         with open(path_r, "wb") as f:
@@ -90,17 +96,20 @@ async def update(
 
     if receptora and doadora:
         print("Processando imagens...")
-        img_1 = LoadImage(f"uploads/{receptora.filename}")
-        img_2 = LoadImage(f"uploads/{doadora.filename}")
+        img_1 = LoadImage(path_r)
+        img_2 = LoadImage(path_d)
 
+        print("Dividindo imagens em fragmentos...")
         fragmentos_1 = get_fragmentos(img_1, tamanho)
         fragmentos_2 = get_fragmentos(img_2, tamanho)
 
-        replaced_img = replace(fragmentos_1, fragmentos_2, yuv=yuv)
+        print("Iniciando a substituição de fragmentos...")
+        replaced_img = replace(fragmentos_1, fragmentos_2, weights=weights, yuv=yuv)
 
+        # Salva a imagem resultante para preview
         SaveImage(replaced_img, "imgs/preview.png")
+        print("Imagens processadas e salvas.")
 
-    print("Imagens processadas e salvas.")
     return {"status": "ok", "msg": "Imagens e parâmetros recebidos"}
 
 
