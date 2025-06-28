@@ -1,4 +1,5 @@
 import numpy as np
+from numba import prange, njit
 from scipy.optimize import linear_sum_assignment
 from tqdm import tqdm
 
@@ -53,21 +54,7 @@ def replace(
         frag2_proc_color = np.array([covert_to_YUV(f) for f in frag2_flat])
 
     # Monta a matriz de custo (n x n)
-    cost_matrix = np.zeros((n, n), dtype=np.float32)
-    print("Calculando matriz de custo combinada...")
-    for i in tqdm(range(n)):
-        for j in range(n):
-            # Calcula a similaridade de cor se o peso for maior que zero
-            sim_cor = comp_imgs(frag1_proc_color[i], frag2_proc_color[j]) if peso_cor > 0 else 0.0
-
-            # Calcula a similaridade VGG (cosseno) se o peso for maior que zero
-            sim_vgg = np.dot(features1_vgg[i], features2_vgg[j]) if peso_vgg > 0 else 0.0
-
-            # Calcula a similaridade final ponderada
-            final_similarity = (sim_cor * peso_cor) + (sim_vgg * peso_vgg)
-
-            # O custo é o inverso da similaridade (1 - similaridade)
-            cost_matrix[i, j] = 1.0 - final_similarity
+    cost_matrix = calc_cost_matrix(features1_vgg, features2_vgg, frag1_proc_color, frag2_proc_color, n, peso_cor, peso_vgg)
 
     # Resolve o problema de atribuição com o algoritmo húngaro para encontrar o menor custo total
     print("Resolvendo atribuição com Algoritmo Húngaro...")
@@ -80,3 +67,23 @@ def replace(
         output[i * fh:(i + 1) * fh, j * fw:(j + 1) * fw] = frag2_flat[frag_idx]
 
     return output
+
+
+@njit(parallel=True)
+def calc_cost_matrix(features1_vgg, features2_vgg, frag1_proc_color, frag2_proc_color, n, peso_cor, peso_vgg):
+    cost_matrix = np.zeros((n, n), dtype=np.float32)
+    print("Calculando matriz de custo combinada...")
+    for i in prange(n):
+        for j in prange(n):
+            # Calcula a similaridade de cor se o peso for maior que zero
+            sim_cor = comp_imgs(frag1_proc_color[i], frag2_proc_color[j]) if peso_cor > 0 else 0.0
+
+            # Calcula a similaridade VGG (cosseno) se o peso for maior que zero
+            sim_vgg = np.dot(features1_vgg[i], features2_vgg[j]) if peso_vgg > 0 else 0.0
+
+            # Calcula a similaridade final ponderada
+            final_similarity = (sim_cor * peso_cor) + (sim_vgg * peso_vgg)
+
+            # O custo é o inverso da similaridade (1 - similaridade)
+            cost_matrix[i, j] = 1.0 - final_similarity
+    return cost_matrix
