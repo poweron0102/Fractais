@@ -184,7 +184,34 @@ body.dark .image-tools button {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  flex: 1; /* Faz com que o container de parâmetros ocupe o espaço disponível */
+  overflow-y: auto; /* Adiciona scroll vertical apenas quando necessário */
+  min-height: 0; /* Essencial para que o overflow funcione corretamente em um container flex */
+  padding-right: 0.5rem; /* Evita que o conteúdo fique sob a barra de rolagem */
 }
+
+/* Estilização da barra de rolagem para Webkit (Chrome, Safari) */
+.parameters::-webkit-scrollbar {
+  width: 8px;
+}
+
+.parameters::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.parameters::-webkit-scrollbar-thumb {
+  background-color: var(--border-color-light);
+  border-radius: 4px;
+}
+
+body.dark .parameters::-webkit-scrollbar-thumb {
+  background-color: var(--border-color-dark);
+}
+
+.parameters::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-color);
+}
+
 
 .param-group, .slider-group {
   display: flex;
