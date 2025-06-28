@@ -11,15 +11,31 @@
 
     <div class="right-panel">
       <div class="image-inputs">
-        <div class="input-group">
+        <!-- Painel da Imagem Receptora -->
+        <div class="input-container">
           <label class="image-label">Imagem Receptora</label>
           <input type="file" id="receptora" accept="image/*" style="display: none;">
-          <div class="image-preview" id="receptoraPreview" title="Clique ou arraste uma imagem aqui"></div>
+          <div class="image-preview" id="receptoraPreview">
+            <span class="image-dimension-display"></span>
+          </div>
+          <div class="image-tools">
+            <button id="grayscale-receptora" title="Converter para Preto e Branco">⚫</button>
+            <button id="match-color-receptora" title="Ajustar Cor para Doadora">🎨</button>
+            <button id="resize-receptora" title="Ajustar Resolução para Doadora">↔️</button>
+          </div>
         </div>
-        <div class="input-group">
+        <!-- Painel da Imagem Doadora -->
+        <div class="input-container">
           <label class="image-label">Imagem Doadora</label>
           <input type="file" id="doadora" accept="image/*" style="display: none;">
-          <div class="image-preview" id="doadoraPreview" title="Clique ou arraste uma imagem aqui"></div>
+          <div class="image-preview" id="doadoraPreview">
+              <span class="image-dimension-display"></span>
+          </div>
+          <div class="image-tools">
+              <button id="grayscale-doadora" title="Converter para Preto e Branco">⚫</button>
+              <button id="match-color-doadora" title="Ajustar Cor para Receptora">🎨</button>
+              <button id="resize-doadora" title="Ajustar Resolução para Receptora">↔️</button>
+          </div>
         </div>
       </div>
 
@@ -43,7 +59,6 @@
           <label for="peso_vgg">Peso da VGG (IA): <span id="pesoVggValue">0.0</span></label>
           <input type="range" id="peso_vgg" min="0" max="1" step="0.1" value="0.0">
         </div>
-
       </div>
 
       <div class="button-row">
