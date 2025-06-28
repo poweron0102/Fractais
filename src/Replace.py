@@ -29,8 +29,8 @@ def replace(
 
     # Pré-calcula características VGG para todos os fragmentos se o peso VGG for maior que zero
     # Isso é muito mais eficiente do que extrair características dentro do loop.
-    features1_vgg = None
-    features2_vgg = None
+    features1_vgg = np.zeros((n, 14 * 14 * 512), dtype=np.float32)
+    features2_vgg = np.zeros((n, 14 * 14 * 512), dtype=np.float32)
     if peso_vgg > 0:
         print("Extraindo características VGG do conjunto 1...")
         features1_vgg = np.array([extract_features(f) for f in tqdm(frag1_flat)])
@@ -41,9 +41,14 @@ def replace(
         # Normaliza todos os vetores de características de uma vez para o cálculo da similaridade de cosseno
         norm1 = np.linalg.norm(features1_vgg, axis=1, keepdims=True)
         norm2 = np.linalg.norm(features2_vgg, axis=1, keepdims=True)
+
         # Evita divisão por zero para vetores nulos
         features1_vgg = np.divide(features1_vgg, norm1, out=np.zeros_like(features1_vgg), where=norm1 != 0)
         features2_vgg = np.divide(features2_vgg, norm2, out=np.zeros_like(features2_vgg), where=norm2 != 0)
+
+        # make a sure the features are float32 for compatibility with numba
+        features1_vgg = features1_vgg.astype(np.float32)
+        features2_vgg = features2_vgg.astype(np.float32)
 
     # Converte os fragmentos para o espaço de cor YUV se a opção estiver ativa
     frag1_proc_color = frag1_flat
@@ -54,7 +59,8 @@ def replace(
         frag2_proc_color = np.array([covert_to_YUV(f) for f in frag2_flat])
 
     # Monta a matriz de custo (n x n)
-    cost_matrix = calc_cost_matrix(features1_vgg, features2_vgg, frag1_proc_color, frag2_proc_color, n, peso_cor, peso_vgg)
+    cost_matrix = calc_cost_matrix(features1_vgg, features2_vgg, frag1_proc_color, frag2_proc_color, n, peso_cor,
+                                   peso_vgg)
 
     # Resolve o problema de atribuição com o algoritmo húngaro para encontrar o menor custo total
     print("Resolvendo atribuição com Algoritmo Húngaro...")
@@ -76,10 +82,16 @@ def calc_cost_matrix(features1_vgg, features2_vgg, frag1_proc_color, frag2_proc_
     for i in prange(n):
         for j in prange(n):
             # Calcula a similaridade de cor se o peso for maior que zero
-            sim_cor = comp_imgs(frag1_proc_color[i], frag2_proc_color[j]) if peso_cor > 0 else 0.0
+            if peso_cor > 0:
+                sim_cor = comp_imgs(frag1_proc_color[i], frag2_proc_color[j])
+            else:
+                sim_cor = 0.0
 
             # Calcula a similaridade VGG (cosseno) se o peso for maior que zero
-            sim_vgg = np.dot(features1_vgg[i], features2_vgg[j]) if peso_vgg > 0 else 0.0
+            if peso_vgg > 0:
+                sim_vgg = np.dot(features1_vgg[i], features2_vgg[j])
+            else:
+                sim_vgg = 0.0
 
             # Calcula a similaridade final ponderada
             final_similarity = (sim_cor * peso_cor) + (sim_vgg * peso_vgg)
