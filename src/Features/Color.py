@@ -1,8 +1,5 @@
 import numpy as np
-from numba import njit
-from scipy.optimize import linear_sum_assignment
-
-from src.Fragmentos import Image, FragmentGrid, Fragment
+from numba import njit, cuda, float32
 
 
 @njit
@@ -36,7 +33,7 @@ def covert_to_RGB(yuv: np.ndarray) -> np.ndarray:
 
 
 @njit
-def comp_imgs(img1: np.ndarray, img2: np.ndarray) -> float:
+def comp_imgs_dif(img1: np.ndarray, img2: np.ndarray) -> float:
     """
     Compares two images.
     :param img1: The first image.
@@ -51,6 +48,35 @@ def comp_imgs(img1: np.ndarray, img2: np.ndarray) -> float:
     similarity = 1 - np.sum(diff) / (img1.shape[0] * img1.shape[1] * 3 * 255)
     return similarity
 
+
+@cuda.jit(device=True)
+def cu_comp_imgs_dif(img1, img2):
+    """
+    Compara duas imagens na GPU. Esta é uma 'device function'.
+    :param img1: A primeira imagem (um fragmento 3D).
+    :param img2: A segunda imagem (um fragmento 3D).
+    :return: A similaridade entre as duas imagens.
+    """
+    # A forma (shape) da imagem é conhecida (ex: 64, 64, 3)
+    height, width, channels = img1.shape
+
+    # O valor máximo possível da soma das diferenças absolutas
+    max_diff_sum = height * width * channels * 255.0
+
+    # Acumulador para a soma das diferenças
+    diff_sum = 0.0
+
+    # Loop explícito, pois np.sum não é suportado da mesma forma em device functions
+    for y in range(height):
+        for x in range(width):
+            for c in range(channels):
+                # Usamos float32 para evitar overflow com uint8
+                d = abs(float32(img1[y, x, c]) - float32(img2[y, x, c]))
+                diff_sum += d
+
+    # Calcula a similaridade
+    similarity = 1.0 - (diff_sum / max_diff_sum)
+    return similarity
 
 
 

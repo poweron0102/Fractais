@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="scroll">
+    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="imgs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/imgs/preview.png" beforeDir="false" afterPath="$PROJECT_DIR$/imgs/preview.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/cappie_512.png" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/cappie_512.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/frieren_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/frieren_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/frieren_2_512.png" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/frieren_2_512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Features/Color.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/Color.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Replace.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Replace.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -333,7 +331,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751130512119</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="imgs">
+      <option name="closed" value="true" />
+      <created>1751167640639</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1751167640639</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -368,6 +374,7 @@
     <MESSAGE value="njit working" />
     <MESSAGE value="cooked" />
     <MESSAGE value="scroll" />
-    <option name="LAST_COMMIT_MESSAGE" value="scroll" />
+    <MESSAGE value="imgs" />
+    <option name="LAST_COMMIT_MESSAGE" value="imgs" />
   </component>
 </project>
