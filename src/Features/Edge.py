@@ -1,90 +1,121 @@
 import os
-
 import numpy as np
-import pygame as pg
+from numba import njit, cuda
 
-
-from numba import njit
-from Features.Color import replace, covert_to_YUV
-
-def save_array_as_image(array: np.ndarray, output_dir: str, img_name: str = "img.png"):
-    # create the folder if it doesn't exist
-    os.makedirs(output_dir, exist_ok=True)
-
-    
-    filename = f"{output_dir}/{img_name}"
-    # img = pg.surfarray.make_surface(array)
-    # pg.image.save(img, filename)
-    pg.image.save(pg.surfarray.make_surface(array), filename)
-
-# Gausian blur
-def gaussian_blur(img: np.ndarray) -> np.ndarray:
-    # OBS .: Acho que vai ter que dividir por 16 depois
-    kernel = np.array([1, 2, 1], dtype=np.uint8)
-    kernel = kernel / np.sum(kernel)
-    height, width, _ = img.shape
-
-    imgB = np.zeros((height + 2, width + 2, 3), dtype=np.uint8)
-    imgB[1:height + 1, 1:width+1, :] = img
-     
-    for c in range(2): # for each color channel
-        for i in range(1, height+1):
-            for j in range(1, width+1):
-                imgB[i, j] = (imgB[i, j-1] * kernel[0] + imgB[i, j] * kernel[1] + imgB[i, j+1] * kernel[2])
-                imgB[i, j] = (imgB[i-1, j] * kernel[0] + imgB[i, j] * kernel[1] + imgB[i+1, j] * kernel[2])
-    
-    return imgB[1:height +1, 1:width+1]
-
-# grayscale
-def grayscale(img: np.ndarray) -> np.ndarray:
-    img_yuv = covert_to_YUV(img)
-
-    img_gray = np.zeros_like(img, dtype=np.uint8)
-
-    img_gray[:, :, 0] = img_yuv[:, :, 0]
-    img_gray[:, :, 1] = img_yuv[:, :, 0]
-    img_gray[:, :, 2] = img_yuv[:, :, 0]
-
-    return img_gray
-# Sobel
 
 @njit
-def convolve(img: np.ndarray, kernel: np.ndarray) -> np.ndarray:
-    kernel_height, kernel_width = kernel.shape
-    height, width, _ = img.shape
+def grayscale(img: np.ndarray) -> np.ndarray:
+    """Converts an RGB image to grayscale using the YUV luma component."""
+    gray_val = 0.299 * img[..., 0] + 0.587 * img[..., 1] + 0.114 * img[..., 2]
 
-    img_convolved = np.zeros((height + 2, width + 2, 3), dtype=np.uint32)
-    img_convolved2 = img_convolved.copy()
-    img_convolved2[1:height + 1, 1:width + 1, :] = img
+    img_gray = np.zeros_like(img, dtype=np.uint8)
+    img_gray[..., 0] = gray_val
+    img_gray[..., 1] = gray_val
+    img_gray[..., 2] = gray_val
 
-    for i in range(1, img.shape[0] +1):
-        for j in range(1, img.shape[1] +1):
-            sum = 0
-            for m in range(kernel_height):
-                for n in range(kernel_width):
-                    x = i + m - kernel_height // 2
-                    y = j + n - kernel_width // 2
-                    sum += img_convolved2[x, y, 0] * kernel[m, n]
-            img_convolved[i, j, :] = sum
+    return img_gray
 
-    return img_convolved[1:height +1, 1:width +1]
 
-# @njit
+@njit
+def convolve(img_channel: np.ndarray, kernel: np.ndarray) -> np.ndarray:
+    """Helper function to apply a convolution kernel to a single image channel."""
+    k_h, k_w = kernel.shape
+    h, w = img_channel.shape
+    pad_h, pad_w = k_h // 2, k_w // 2
+
+    padded_img = np.zeros((h + pad_h * 2, w + pad_w * 2), dtype=np.float32)
+    padded_img[pad_h:h + pad_h, pad_w:w + pad_w] = img_channel
+
+    output = np.zeros_like(img_channel, dtype=np.float32)
+
+    for i in range(h):
+        for j in range(w):
+            region = padded_img[i:i + k_h, j:j + k_w]
+            output[i, j] = np.sum(region * kernel)
+
+    return output
+
+
+@njit
+def angle_to_hue(angle: np.ndarray) -> np.ndarray:
+    """Converts an angle in radians (-pi to +pi) to a hue value (0-255)."""
+    return (((angle + np.pi) / (2 * np.pi)) * 255).astype(np.uint8)
+
+
+@njit
 def sobel(img: np.ndarray) -> np.ndarray:
-    kernel_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
-    kernel_y = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
+    """
+    Applies the Sobel operator and returns a 3-channel representation
+    encoding both edge magnitude and direction.
+    """
+    kernel_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=np.float32)
+    kernel_y = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]], dtype=np.float32)
 
-    img_x = convolve(img, kernel_x)
-    img_y = convolve(img, kernel_y)
+    gray_channel = img[:, :, 0].astype(np.float32)
 
-    img_sobel = np.sqrt(img_x ** 2 + img_y ** 2)
+    img_x = convolve(gray_channel, kernel_x)
+    img_y = convolve(gray_channel, kernel_y)
 
-    # Give a hue based on the angle
-    # img_sobel = angle_to_color(np.arctan2(img_y, img_x))
+    magnitude = np.sqrt(img_x ** 2 + img_y ** 2)
+    angle = np.arctan2(img_y, img_x)
 
-    img_sobel = np.clip(img_sobel, 0, 255).astype(np.uint8)
+    mag_norm = (magnitude / np.max(magnitude)) * 255 if np.max(magnitude) > 0 else np.zeros_like(magnitude)
+    mag_norm = mag_norm.astype(np.uint8)
 
-    return img_sobel
+    hue = angle_to_hue(angle)
 
-def angle_to_color(angle: np.ndarray) -> np.ndarray:
-    pass
+    sobel_output = np.zeros_like(img, dtype=np.uint8)
+    sobel_output[:, :, 0] = mag_norm
+    sobel_output[:, :, 1] = hue
+    sobel_output[:, :, 2] = mag_norm
+
+    return sobel_output
+
+
+@njit
+def comp_sobel_dif(sobel_frag1: np.ndarray, sobel_frag2: np.ndarray) -> float:
+    """
+    Compares two Sobel feature fragments and returns a similarity score.
+    """
+    frag1_i32 = sobel_frag1.astype(np.int32)
+    frag2_i32 = sobel_frag2.astype(np.int32)
+
+    diff = np.abs(frag1_i32 - frag2_i32)
+    weights = np.array([0.25, 0.5, 0.25], dtype=np.float32)
+    weighted_diff_sum = np.sum(diff * weights)
+    max_diff = sobel_frag1.shape[0] * sobel_frag1.shape[1] * 255.0 * np.sum(weights)
+
+    if max_diff == 0:
+        return 1.0
+    return 1.0 - (weighted_diff_sum / max_diff)
+
+
+@cuda.jit(device=True)
+def cu_comp_sobel_dif(sobel_frag1, sobel_frag2):
+    """
+    Compares two Sobel feature fragments on the GPU. This is a 'device function'.
+    """
+    height, width, _ = sobel_frag1.shape
+
+    # Pesos para os canais (Magnitude, Matiz, Magnitude)
+    weights_ch0 = 0.25
+    weights_ch1 = 0.50
+    weights_ch2 = 0.25
+
+    max_diff_sum = height * width * 255.0 * (weights_ch0 + weights_ch1 + weights_ch2)
+
+    if max_diff_sum == 0:
+        return 1.0
+
+    weighted_diff_sum = 0.0
+    for y in range(height):
+        for x in range(width):
+            # Calcula a diferença absoluta para cada canal
+            diff0 = abs(float(sobel_frag1[y, x, 0]) - float(sobel_frag2[y, x, 0]))
+            diff1 = abs(float(sobel_frag1[y, x, 1]) - float(sobel_frag2[y, x, 1]))
+            diff2 = abs(float(sobel_frag1[y, x, 2]) - float(sobel_frag2[y, x, 2]))
+            # Soma as diferenças ponderadas
+            weighted_diff_sum += (diff0 * weights_ch0) + (diff1 * weights_ch1) + (diff2 * weights_ch2)
+
+    similarity = 1.0 - (weighted_diff_sum / max_diff_sum)
+    return similarity
