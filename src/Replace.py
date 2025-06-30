@@ -1,6 +1,7 @@
 import numpy as np
 from numba import prange, njit, cuda
-from scipy.optimize import linear_sum_assignment
+#from scipy.optimize import linear_sum_assignment
+import lap
 from tqdm import tqdm
 
 from src.Features.Dif import comp_imgs_dif, covert_to_YUV, cu_comp_imgs_dif
@@ -58,12 +59,20 @@ def replace(
         )
     # ----------------------------------------
 
-    print("Resolvendo atribuição com Algoritmo Húngaro...")
-    row_ind, col_ind = linear_sum_assignment(cost_matrix)
+    # print("Resolvendo atribuição com Algoritmo Húngaro...")
+    # row_ind, col_ind = linear_sum_assignment(cost_matrix)
+    # print("Reconstruindo a imagem final...")
+    # output_array = np.zeros((h * fh, w * fw, 3), dtype=np.uint8)
+    # for idx, frag_idx in zip(row_ind, col_ind):
+    #     i, j = divmod(idx, w)
+    #     output_array[i * fh:(i + 1) * fh, j * fw:(j + 1) * fw] = frag2_flat[frag_idx]
 
+    print("Resolvendo atribuição com Algoritmo do Jonker-Volgenant (lap.lapjv)...")
+    cost, col_ind, _ = lap.lapjv(cost_matrix.astype(np.float32))
+    print(f"Custo total da atribuição: {cost}")
     print("Reconstruindo a imagem final...")
     output_array = np.zeros((h * fh, w * fw, 3), dtype=np.uint8)
-    for idx, frag_idx in zip(row_ind, col_ind):
+    for idx, frag_idx in enumerate(col_ind):
         i, j = divmod(idx, w)
         output_array[i * fh:(i + 1) * fh, j * fw:(j + 1) * fw] = frag2_flat[frag_idx]
 
