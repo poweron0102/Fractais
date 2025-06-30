@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="imgs">
+    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="vibecode GPU">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Features/Color.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/Color.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Replace.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Replace.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -339,7 +337,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751167640639</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="vibecode GPU">
+      <option name="closed" value="true" />
+      <created>1751240004470</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1751240004470</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -375,6 +381,7 @@
     <MESSAGE value="cooked" />
     <MESSAGE value="scroll" />
     <MESSAGE value="imgs" />
-    <option name="LAST_COMMIT_MESSAGE" value="imgs" />
+    <MESSAGE value="vibecode GPU" />
+    <option name="LAST_COMMIT_MESSAGE" value="vibecode GPU" />
   </component>
 </project>

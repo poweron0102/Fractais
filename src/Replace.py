@@ -168,8 +168,8 @@ def calc_cost_matrix_cuda(
     threads_per_block = (16, 16)
 
     # Blocos por grade (calculado para cobrir toda a matriz)
-    blocks_per_grid_x = np.ceil(n / threads_per_block[0])
-    blocks_per_grid_y = np.ceil(n / threads_per_block[1])
+    blocks_per_grid_x = int(np.ceil(n / threads_per_block[0]))
+    blocks_per_grid_y = int(np.ceil(n / threads_per_block[1]))
     blocks_per_grid = (blocks_per_grid_x, blocks_per_grid_y)
 
     # --- 3. Lançar o Kernel na GPU ---
