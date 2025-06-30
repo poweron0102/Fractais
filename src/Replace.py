@@ -3,7 +3,7 @@ from numba import prange, njit, cuda
 from scipy.optimize import linear_sum_assignment
 from tqdm import tqdm
 
-from src.Features.Color import comp_imgs_dif, covert_to_YUV, cu_comp_imgs_dif
+from src.Features.Dif import comp_imgs_dif, covert_to_YUV, cu_comp_imgs_dif
 from src.Features.VGG import extract_features  # Importando a nova função
 from src.Fragmentos import Image, FragmentGrid
 

@@ -5,7 +5,7 @@ import pygame as pg
 
 from Fragmentos import get_fragmentos, save_fragmentos, SaveImage, LoadImage
 from Features.Edge import *
-from Features.Color import replace, covert_to_YUV
+from Features.Dif import replace, covert_to_YUV
 
 pg.init()
 

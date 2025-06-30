@@ -57,9 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Parâmetros
         tamanhoInput: document.getElementById("tamanho"),
         yuvCheckbox: document.getElementById("yuv"),
-        pesoCorSlider: document.getElementById("peso_cor"),
+        pesoDifSlider: document.getElementById("peso_dif"),
         pesoVggSlider: document.getElementById("peso_vgg"),
-        pesoCorValue: document.getElementById("pesoCorValue"),
+        pesoDifValue: document.getElementById("pesoDifValue"),
         pesoVggValue: document.getElementById("pesoVggValue"),
         // Botões Principais
         updateBtn: document.getElementById("updateBtn"),
@@ -135,29 +135,29 @@ document.addEventListener("DOMContentLoaded", () => {
      * Quando um é alterado, o outro é ajustado automaticamente.
      */
     setupWeightSliders() {
-        const { pesoCorSlider, pesoVggSlider, pesoCorValue, pesoVggValue } = this.elements;
+        const { pesoDifSlider, pesoVggSlider, pesoDifValue, pesoVggValue } = this.elements;
 
-        const handleCorSliderInput = (e) => {
-            const corValue = parseFloat(e.target.value);
-            const vggValue = 1.0 - corValue;
+        const handleDifSliderInput = (e) => {
+            const difValue = parseFloat(e.target.value);
+            const vggValue = 1.0 - difValue;
 
             // Atualiza o valor e a exibição do outro slider
             pesoVggSlider.value = vggValue.toFixed(1);
-            pesoCorValue.textContent = corValue.toFixed(1);
+            pesoDifValue.textContent = difValue.toFixed(1);
             pesoVggValue.textContent = vggValue.toFixed(1);
         };
 
         const handleVggSliderInput = (e) => {
             const vggValue = parseFloat(e.target.value);
-            const corValue = 1.0 - vggValue;
+            const difValue = 1.0 - vggValue;
 
             // Atualiza o valor e a exibição do outro slider
-            pesoCorSlider.value = corValue.toFixed(1);
+            pesoDifSlider.value = difValue.toFixed(1);
             pesoVggValue.textContent = vggValue.toFixed(1);
-            pesoCorValue.textContent = corValue.toFixed(1);
+            pesoDifValue.textContent = difValue.toFixed(1);
         };
 
-        pesoCorSlider.addEventListener('input', handleCorSliderInput);
+        pesoDifSlider.addEventListener('input', handleDifSliderInput);
         pesoVggSlider.addEventListener('input', handleVggSliderInput);
     },
 
@@ -415,7 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("doadora", this.state.doadora.file);
       formData.append("tamanho", this.elements.tamanhoInput.value);
       formData.append("yuv", this.elements.yuvCheckbox.checked);
-      formData.append("peso_cor", this.elements.pesoCorSlider.value);
+      formData.append("peso_dif", this.elements.pesoDifSlider.value);
       formData.append("peso_vgg", this.elements.pesoVggSlider.value);
       return formData;
     },

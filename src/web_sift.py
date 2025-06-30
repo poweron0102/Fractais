@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse, HTMLResponse
 import cv2
 import numpy as np
 
-from src.Features.Color import replace
+from src.Features.Dif import replace
 from src.Fragmentos import SaveImage, get_fragmentos, LoadImage
 
 

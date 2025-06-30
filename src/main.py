@@ -2,7 +2,7 @@ import os
 from multiprocessing import Pool, cpu_count
 from tqdm import tqdm
 
-from src.Features.Color import replace
+from src.Features.Dif import replace
 from src.Fragmentos import LoadImage, get_fragmentos, SaveImage
 
 

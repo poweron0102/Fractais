@@ -7,7 +7,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse
 
 from src.Fragmentos import get_fragmentos, SaveImage, LoadImage
-# Corrigindo o caminho de importação para a função 'replace'
 from src.Replace import replace
 
 app = FastAPI()
@@ -57,25 +56,25 @@ async def update(
         yuv: bool = Form(True),
         tamanho: int = Form(...),
         # Novos parâmetros para os pesos da similaridade
-        peso_cor: float = Form(...),
+        peso_dif: float = Form(...),
         peso_vgg: float = Form(...)
 ):
     # Normaliza os pesos para que a soma seja 1, garantindo uma ponderação consistente.
-    total_peso = peso_cor + peso_vgg
+    total_peso = peso_dif + peso_vgg
     if total_peso > 0:
-        peso_cor_norm = peso_cor / total_peso
+        peso_dif_norm = peso_dif / total_peso
         peso_vgg_norm = peso_vgg / total_peso
     else:  # Caso de emergência para evitar divisão por zero
-        peso_cor_norm = 1.0
+        peso_dif_norm = 1.0
         peso_vgg_norm = 0.0
 
-    weights = (peso_cor_norm, peso_vgg_norm)
+    weights = (peso_dif_norm, peso_vgg_norm)
 
     print("Recebendo parâmetros...")
     print(f"""
     YUV: {yuv}
     Tamanho do fragmento: {tamanho}
-    Pesos Normalizados (Cor, VGG): {weights}
+    Pesos Normalizados (Dif, VGG): {weights}
     """)
 
     # Verifica se o diretório de uploads existe, caso contrário, cria
