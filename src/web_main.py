@@ -56,28 +56,31 @@ async def update(
         yuv: bool = Form(True),
         tamanho: int = Form(...),
         # Novos parâmetros para os pesos da similaridade
-        peso_dif: float = Form(...),
+        peso_dif_imagens: float = Form(...), # Renomeado
         peso_vgg: float = Form(...),
-        peso_sobel: float = Form(...) # Novo peso para Sobel
+        peso_sobel: float = Form(...),
+        peso_media_cor: float = Form(...) # Novo peso para média de cor
 ):
     # Normaliza os pesos para que a soma seja 1, garantindo uma ponderação consistente.
-    total_peso = peso_dif + peso_vgg + peso_sobel
+    total_peso = peso_dif_imagens + peso_vgg + peso_sobel + peso_media_cor
     if total_peso > 0:
-        peso_dif_norm = peso_dif / total_peso
+        peso_dif_imagens_norm = peso_dif_imagens / total_peso
         peso_vgg_norm = peso_vgg / total_peso
         peso_sobel_norm = peso_sobel / total_peso
+        peso_media_cor_norm = peso_media_cor / total_peso
     else:  # Caso de emergência para evitar divisão por zero
-        peso_dif_norm = 1.0
+        peso_dif_imagens_norm = 1.0
         peso_vgg_norm = 0.0
         peso_sobel_norm = 0.0
+        peso_media_cor_norm = 0.0
 
-    weights = (peso_dif_norm, peso_vgg_norm, peso_sobel_norm)
+    weights = (peso_dif_imagens_norm, peso_vgg_norm, peso_sobel_norm, peso_media_cor_norm) # Tupla atualizada
 
     print("Recebendo parâmetros...")
     print(f"""
     YUV: {yuv}
     Tamanho do fragmento: {tamanho}
-    Pesos Normalizados (Dif, VGG, Sobel): {weights}
+    Pesos Normalizados (Dif Imagens, VGG, Sobel, Média Cor): {weights}
     """)
 
     # Verifica se o diretório de uploads existe, caso contrário, cria

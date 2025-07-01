@@ -5,6 +5,7 @@ from tqdm import tqdm
 
 from src.Features.Dif import comp_imgs_dif, covert_to_YUV, cu_comp_imgs_dif
 from src.Features.Edge import sobel, comp_sobel_dif, cu_comp_sobel_dif
+from src.Features.MediaCor import comp_imgs_media_cor, cu_comp_imgs_media_cor
 from src.Features.VGG import extract_features
 from src.Fragmentos import Image, FragmentGrid
 
@@ -12,17 +13,17 @@ from src.Fragmentos import Image, FragmentGrid
 def replace(
         fragmentos_1: FragmentGrid,
         fragmentos_2: FragmentGrid,
-        weights: tuple[float, float, float] = (1.0, 0.0, 0.0),
+        weights: tuple[float, float, float, float] = (1.0, 0.0, 0.0, 0.0), # Tupla atualizada
         yuv: bool = False
 ) -> Image:
     """
     Substitui fragmentos de forma otimizada, usando uma combinação ponderada de
-    similaridade de cor, VGG e bordas Sobel. Detecta automaticamente o hardware
+    similaridade de cor, VGG e bordas Sobel, e média de cor. Detecta automaticamente o hardware
     disponível (GPU com CUDA ou CPU).
     """
     h, w, fh, fw, _ = fragmentos_1.shape
     n = h * w
-    peso_cor, peso_vgg, peso_sobel = weights
+    peso_dif_imagens, peso_vgg, peso_sobel, peso_media_cor = weights # Desempacotar novos pesos
 
     frag1_flat = fragmentos_1.reshape((n, fh, fw, 3))
     frag2_flat = fragmentos_2.reshape((n, fh, fw, 3))
@@ -65,13 +66,13 @@ def replace(
         print("\n==> GPU com suporte a CUDA detectada. Usando GPU para cálculo. <==\n")
         cost_matrix = calc_cost_matrix_cuda(
             features1_vgg, features2_vgg, frag1_proc_color, frag2_proc_color, sobel1, sobel2,
-            n, peso_cor, peso_vgg, peso_sobel
+            n, peso_dif_imagens, peso_vgg, peso_sobel, peso_media_cor # Passar novo peso
         )
     else:
         print("\n==> GPU com CUDA não encontrada. Usando CPU para cálculo. <==\n")
         cost_matrix = calc_cost_matrix(
             features1_vgg, features2_vgg, frag1_proc_color, frag2_proc_color, sobel1, sobel2,
-            n, peso_cor, peso_vgg, peso_sobel
+            n, peso_dif_imagens, peso_vgg, peso_sobel, peso_media_cor # Passar novo peso
         )
 
     # Resolução do problema de atribuição
@@ -91,22 +92,28 @@ def replace(
 
 
 @njit(parallel=True)
-def calc_cost_matrix(features1_vgg, features2_vgg, frag1_proc_color, frag2_proc_color, sobel1, sobel2, n, peso_cor,
-                       peso_vgg, peso_sobel):
+def calc_cost_matrix(features1_vgg, features2_vgg, frag1_proc_color, frag2_proc_color, sobel1, sobel2, n, peso_dif_imagens,
+                       peso_vgg, peso_sobel, peso_media_cor): # Adicionar peso_media_cor
     """Calcula a matriz de custo na CPU."""
     cost_matrix = np.zeros((n, n), dtype=np.float32)
     print("Calculando matriz de custo combinada na CPU...")
     for i in prange(n):
         for j in prange(n):
-            # Similaridade de cor
-            sim_cor = comp_imgs_dif(frag1_proc_color[i], frag2_proc_color[j]) if peso_cor > 0 else 0.0
+            # Similaridade de diferença de imagens
+            sim_dif_imagens = comp_imgs_dif(frag1_proc_color[i], frag2_proc_color[j]) if peso_dif_imagens > 0 else 0.0
             # Similaridade VGG
             sim_vgg = np.dot(features1_vgg[i], features2_vgg[j]) if peso_vgg > 0 else 0.0
             # Similaridade Sobel
             sim_sobel = comp_sobel_dif(sobel1[i], sobel2[j]) if peso_sobel > 0 else 0.0
+            # Similaridade Média de Cor
+            sim_media_cor = comp_imgs_media_cor(frag1_proc_color[i], frag2_proc_color[j]) if peso_media_cor > 0 else 0.0
+
 
             # Combinação ponderada das similaridades
-            final_similarity = (sim_cor * peso_cor) + (sim_vgg * peso_vgg) + (sim_sobel * peso_sobel)
+            final_similarity = (sim_dif_imagens * peso_dif_imagens) + \
+                               (sim_vgg * peso_vgg) + \
+                               (sim_sobel * peso_sobel) + \
+                               (sim_media_cor * peso_media_cor) # Incluir nova similaridade
             cost_matrix[i, j] = 1.0 - final_similarity
     return cost_matrix
 
@@ -117,13 +124,13 @@ def calc_cost_matrix_kernel(
         frag1_proc_color, frag2_proc_color,
         sobel1, sobel2,
         cost_matrix,
-        peso_cor, peso_vgg, peso_sobel
+        peso_dif_imagens, peso_vgg, peso_sobel, peso_media_cor # Adicionar peso_media_cor
 ):
     """Kernel CUDA para calcular a matriz de custo na GPU."""
     i, j = cuda.grid(2)
     if i < cost_matrix.shape[0] and j < cost_matrix.shape[1]:
-        # Similaridade de cor
-        sim_cor = cu_comp_imgs_dif(frag1_proc_color[i], frag2_proc_color[j]) if peso_cor > 0 else 0.0
+        # Similaridade de diferença de imagens
+        sim_dif_imagens = cu_comp_imgs_dif(frag1_proc_color[i], frag2_proc_color[j]) if peso_dif_imagens > 0 else 0.0
 
         # Similaridade VGG
         sim_vgg = 0.0
@@ -134,8 +141,14 @@ def calc_cost_matrix_kernel(
         # Similaridade Sobel
         sim_sobel = cu_comp_sobel_dif(sobel1[i], sobel2[j]) if peso_sobel > 0 else 0.0
 
+        # Similaridade Média de Cor
+        sim_media_cor = cu_comp_imgs_media_cor(frag1_proc_color[i], frag2_proc_color[j]) if peso_media_cor > 0 else 0.0
+
         # Combinação ponderada e custo final
-        final_similarity = (sim_cor * peso_cor) + (sim_vgg * peso_vgg) + (sim_sobel * peso_sobel)
+        final_similarity = (sim_dif_imagens * peso_dif_imagens) + \
+                           (sim_vgg * peso_vgg) + \
+                           (sim_sobel * peso_sobel) + \
+                           (sim_media_cor * peso_media_cor) # Incluir nova similaridade
         cost_matrix[i, j] = 1.0 - final_similarity
 
 
@@ -143,7 +156,7 @@ def calc_cost_matrix_cuda(
         features1_vgg, features2_vgg,
         frag1_proc_color, frag2_proc_color,
         sobel1, sobel2,
-        n, peso_cor, peso_vgg, peso_sobel
+        n, peso_dif_imagens, peso_vgg, peso_sobel, peso_media_cor # Adicionar peso_media_cor
 ):
     """Orquestra o cálculo da matriz de custo na GPU."""
     print("Iniciando cálculo da matriz de custo na GPU...")
@@ -171,7 +184,7 @@ def calc_cost_matrix_cuda(
         d_frag1_proc_color, d_frag2_proc_color,
         d_sobel1, d_sobel2,
         d_cost_matrix,
-        peso_cor, peso_vgg, peso_sobel
+        peso_dif_imagens, peso_vgg, peso_sobel, peso_media_cor # Passar novo peso
     )
 
     # Copiar o resultado de volta para o Host

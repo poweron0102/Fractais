@@ -57,12 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // Parâmetros
         tamanhoInput: document.getElementById("tamanho"),
         yuvCheckbox: document.getElementById("yuv"),
-        pesoDifSlider: document.getElementById("peso_dif"),
+        pesoDifImagensSlider: document.getElementById("peso_dif_imagens"), // Renomeado
         pesoVggSlider: document.getElementById("peso_vgg"),
         pesoSobelSlider: document.getElementById("peso_sobel"),
-        pesoDifValue: document.getElementById("pesoDifValue"),
+        pesoMediaCorSlider: document.getElementById("peso_media_cor"), // Novo slider
+        pesoDifImagensValue: document.getElementById("pesoDifImagensValue"), // Renomeado
         pesoVggValue: document.getElementById("pesoVggValue"),
         pesoSobelValue: document.getElementById("pesoSobelValue"),
+        pesoMediaCorValue: document.getElementById("pesoMediaCorValue"), // Novo valor de exibição
         // Botões Principais
         updateBtn: document.getElementById("updateBtn"),
         toggleThemeBtn: document.getElementById("toggleThemeBtn")
@@ -129,8 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
      */
     setupWeightSliders() {
         const {
-            pesoDifSlider, pesoVggSlider, pesoSobelSlider,
-            pesoDifValue, pesoVggValue, pesoSobelValue
+            pesoDifImagensSlider, pesoVggSlider, pesoSobelSlider, pesoMediaCorSlider, // Adicionado pesoMediaCorSlider
+            pesoDifImagensValue, pesoVggValue, pesoSobelValue, pesoMediaCorValue // Adicionado pesoMediaCorValue
         } = this.elements;
 
         const setupSlider = (slider, display) => {
@@ -139,9 +141,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        setupSlider(pesoDifSlider, pesoDifValue);
+        setupSlider(pesoDifImagensSlider, pesoDifImagensValue);
         setupSlider(pesoVggSlider, pesoVggValue);
         setupSlider(pesoSobelSlider, pesoSobelValue);
+        setupSlider(pesoMediaCorSlider, pesoMediaCorValue); // Configurar novo slider
     },
 
     /**
@@ -349,9 +352,10 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("doadora", this.state.doadora.file);
       formData.append("tamanho", this.elements.tamanhoInput.value);
       formData.append("yuv", this.elements.yuvCheckbox.checked);
-      formData.append("peso_dif", this.elements.pesoDifSlider.value);
+      formData.append("peso_dif_imagens", this.elements.pesoDifImagensSlider.value); // Renomeado
       formData.append("peso_vgg", this.elements.pesoVggSlider.value);
       formData.append("peso_sobel", this.elements.pesoSobelSlider.value);
+      formData.append("peso_media_cor", this.elements.pesoMediaCorSlider.value); // Adicionado novo peso
       return formData;
     },
 

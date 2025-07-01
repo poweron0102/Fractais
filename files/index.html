@@ -11,7 +11,6 @@
 
     <div class="right-panel">
       <div class="image-inputs">
-        <!-- Painel da Imagem Receptora -->
         <div class="input-container">
           <label class="image-label">Imagem Receptora</label>
           <input type="file" id="receptora" accept="image/*" style="display: none;">
@@ -24,7 +23,6 @@
             <button id="resize-receptora" title="Ajustar Resolução para Doadora">↔️</button>
           </div>
         </div>
-        <!-- Painel da Imagem Doadora -->
         <div class="input-container">
           <label class="image-label">Imagem Doadora</label>
           <input type="file" id="doadora" accept="image/*" style="display: none;">
@@ -51,8 +49,8 @@
         </div>
 
         <div class="param-group slider-group">
-          <label for="peso_dif">Peso da Cor: <span id="pesoDifValue">1.0</span></label>
-          <input type="range" id="peso_dif" min="0" max="1" step="0.1" value="1.0">
+          <label for="peso_dif_imagens">Peso Diferença de Imagens: <span id="pesoDifImagensValue">1.0</span></label>
+          <input type="range" id="peso_dif_imagens" min="0" max="1" step="0.1" value="1.0">
         </div>
 
         <div class="param-group slider-group">
@@ -63,6 +61,11 @@
         <div class="param-group slider-group">
           <label for="peso_sobel">Peso do Sobel (Bordas): <span id="pesoSobelValue">0.0</span></label>
           <input type="range" id="peso_sobel" min="0" max="1" step="0.1" value="0.0">
+        </div>
+
+        <div class="param-group slider-group">
+          <label for="peso_media_cor">Peso da Média de Cor: <span id="pesoMediaCorValue">0.0</span></label>
+          <input type="range" id="peso_media_cor" min="0" max="1" step="0.1" value="0.0">
         </div>
 
       </div>

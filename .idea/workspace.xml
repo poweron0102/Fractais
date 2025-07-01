@@ -4,20 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="Renomeia cor para dif.">
+    <list default="true" id="00c2583e-504d-47d2-8d22-d2af0c23d1ca" name="Changes" comment="add pillow">
+      <change afterPath="$PROJECT_DIR$/src/Features/MediaCor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Fragmentos.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Fragmentos.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/files/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/files/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/files/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/files/script.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgs/preview.png" beforeDir="false" afterPath="$PROJECT_DIR$/imgs/preview.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Features/Edge.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/Edge.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Replace.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Replace.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/web_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/web_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/20250523_222135.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/20250523_222135.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/46c6ac3075801cfe6080ae93b9226065-3687772026.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/46c6ac3075801cfe6080ae93b9226065-3687772026.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/Anna.png" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/Anna.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploads/cappie_1024.png" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/cappie_1024.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploads/cappie_512.png" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/cappie_512.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/mila_512.png" beforeDir="false" afterPath="$PROJECT_DIR$/uploads/mila_512.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +42,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;poweron0102&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/poweron0102/Fractais.git&quot;,
+    &quot;accountId&quot;: &quot;5186d812-d7bf-42f1-868b-3f447d356f4c&quot;
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -47,6 +61,7 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2xY6t5Q75B8QKbFXDy7iSYUQTri" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -54,57 +69,23 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Python.Feature matching.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Fourier.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;Python.web_main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/natha/PycharmProjects/Fragmentos/Fragmentos/Atividades&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Nathan Pinheiro/Documents/GitHub/Fractais/src/main.py&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;proofread&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\natha\PycharmProjects\Fragmentos\Fragmentos\src" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\natha\PycharmProjects\Fragmentos\Fragmentos\Atividades" />
-    </key>
   </component>
-  <component name="RunManager" selected="Python.Feature matching">
-    <configuration name="Feature matching" type="PythonConfigurationType" factoryName="Python">
-      <module name="Fragmentos" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="C:\Users\natha\PycharmProjects\Fragmentos\Fragmentos\Atividades" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Atividades/feature_matching.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python">
       <module name="Fragmentos" />
       <option name="ENV_FILES" value="" />
@@ -114,11 +95,10 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="C:\Users\natha\PycharmProjects\Fragmentos\Fragmentos" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\Nathan Pinheiro\Documents\GitHub\Fractais" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -141,7 +121,6 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/web_main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -152,7 +131,6 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.Feature matching" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.web_main" />
     </list>
@@ -160,8 +138,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-PY-251.26094.141" />
-        <option value="bundled-python-sdk-9f8e2b94138c-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26094.141" />
+        <option value="bundled-python-sdk-1b1018131e27-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.180" />
       </set>
     </attachedChunks>
   </component>
@@ -173,8 +150,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1748102871142</updated>
-      <workItem from="1751293713068" duration="2494000" />
-      <workItem from="1751296546999" duration="307000" />
     </task>
     <task id="LOCAL-00001" summary="InicialComite">
       <option name="closed" value="true" />
@@ -288,107 +263,40 @@
       <option name="project" value="LOCAL" />
       <updated>1748211074316</updated>
     </task>
-    <task id="LOCAL-00015" summary="VGG">
+    <task id="LOCAL-00015" summary="remove pygame and add fake treads">
       <option name="closed" value="true" />
-      <created>1750462095543</created>
+      <created>1748287007112</created>
       <option name="number" value="00015" />
       <option name="presentableId" value="LOCAL-00015" />
       <option name="project" value="LOCAL" />
-      <updated>1750462095543</updated>
+      <updated>1748287007112</updated>
     </task>
-    <task id="LOCAL-00016" summary="VGG">
+    <task id="LOCAL-00016" summary="click button for celular">
       <option name="closed" value="true" />
-      <created>1751063501671</created>
+      <created>1748288021720</created>
       <option name="number" value="00016" />
       <option name="presentableId" value="LOCAL-00016" />
       <option name="project" value="LOCAL" />
-      <updated>1751063501671</updated>
+      <updated>1748288021720</updated>
     </task>
-    <task id="LOCAL-00017" summary="VGG added">
+    <task id="LOCAL-00017" summary="removed pygame again">
       <option name="closed" value="true" />
-      <created>1751064676573</created>
+      <created>1748288726419</created>
       <option name="number" value="00017" />
       <option name="presentableId" value="LOCAL-00017" />
       <option name="project" value="LOCAL" />
-      <updated>1751064676573</updated>
+      <updated>1748288726419</updated>
     </task>
-    <task id="LOCAL-00018" summary="normalizando sliders">
+    <task id="LOCAL-00018" summary="add pillow">
       <option name="closed" value="true" />
-      <created>1751067693394</created>
+      <created>1748290358126</created>
       <option name="number" value="00018" />
       <option name="presentableId" value="LOCAL-00018" />
       <option name="project" value="LOCAL" />
-      <updated>1751067693394</updated>
+      <updated>1748290358126</updated>
     </task>
-    <task id="LOCAL-00019" summary="njit">
-      <option name="closed" value="true" />
-      <created>1751068962496</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1751068962496</updated>
-    </task>
-    <task id="LOCAL-00020" summary="njit working">
-      <option name="closed" value="true" />
-      <created>1751070483910</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1751070483910</updated>
-    </task>
-    <task id="LOCAL-00021" summary="cooked">
-      <option name="closed" value="true" />
-      <created>1751077141156</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1751077141156</updated>
-    </task>
-    <task id="LOCAL-00022" summary="scroll">
-      <option name="closed" value="true" />
-      <created>1751130512119</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1751130512119</updated>
-    </task>
-    <task id="LOCAL-00023" summary="imgs">
-      <option name="closed" value="true" />
-      <created>1751167640639</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1751167640639</updated>
-    </task>
-    <task id="LOCAL-00024" summary="vibecode GPU">
-      <option name="closed" value="true" />
-      <created>1751240004470</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1751240004470</updated>
-    </task>
-    <task id="LOCAL-00025" summary="adding int">
-      <option name="closed" value="true" />
-      <created>1751243731763</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1751243731763</updated>
-    </task>
-    <task id="LOCAL-00026" summary="Renomeia cor para dif.">
-      <option name="closed" value="true" />
-      <created>1751245377550</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1751245377550</updated>
-    </task>
-    <option name="localTasksCounter" value="27" />
+    <option name="localTasksCounter" value="19" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -415,17 +323,10 @@
     <MESSAGE value="gitgnore" />
     <MESSAGE value="better web" />
     <MESSAGE value="some fixes" />
-    <MESSAGE value="VGG" />
-    <MESSAGE value="VGG added" />
-    <MESSAGE value="normalizando sliders" />
-    <MESSAGE value="njit" />
-    <MESSAGE value="njit working" />
-    <MESSAGE value="cooked" />
-    <MESSAGE value="scroll" />
-    <MESSAGE value="imgs" />
-    <MESSAGE value="vibecode GPU" />
-    <MESSAGE value="adding int" />
-    <MESSAGE value="Renomeia cor para dif." />
-    <option name="LAST_COMMIT_MESSAGE" value="Renomeia cor para dif." />
+    <MESSAGE value="remove pygame and add fake treads" />
+    <MESSAGE value="click button for celular" />
+    <MESSAGE value="removed pygame again" />
+    <MESSAGE value="add pillow" />
+    <option name="LAST_COMMIT_MESSAGE" value="add pillow" />
   </component>
 </project>
