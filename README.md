@@ -1,5 +1,9 @@
+Trabalho realizado durante o curso da disciplina de Visão Computacional, lecionada pelo professor Leandro Fernandes no primeiro semestre de 2025 - Universidade Federal Fluminense (UFF)
+
+# Instruções de Uso:
+
 ````shell
-.\.venv\Scripts\activate
+.venv\Scripts\activate
 ````
 
 ````shell

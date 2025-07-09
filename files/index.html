@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editor de Mosaico com IA</title>
+  <title>Sintetizador de Mosaicos</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,27 +44,27 @@
         </div>
 
         <div class="param-group">
-          <label for="yuv">Usar Cor YUV</label>
+          <label for="yuv">Usar Espaço de Cores YUV</label>
           <input type="checkbox" id="yuv" checked>
         </div>
 
         <div class="param-group slider-group">
-          <label for="peso_dif_imagens">Peso Diferença de Imagens: <span id="pesoDifImagensValue">1.0</span></label>
+          <label for="peso_dif_imagens">Peso Diferença de Cores: <span id="pesoDifImagensValue">1.0</span></label>
           <input type="range" id="peso_dif_imagens" min="0" max="1" step="0.1" value="1.0">
         </div>
 
         <div class="param-group slider-group">
-          <label for="peso_vgg">Peso da VGG (IA): <span id="pesoVggValue">0.0</span></label>
+          <label for="peso_vgg">Peso da VGG-16: <span id="pesoVggValue">0.0</span></label>
           <input type="range" id="peso_vgg" min="0" max="1" step="0.1" value="0.0">
         </div>
 
         <div class="param-group slider-group">
-          <label for="peso_sobel">Peso do Sobel (Bordas): <span id="pesoSobelValue">0.0</span></label>
+          <label for="peso_sobel">Peso do Filtro Sobel: <span id="pesoSobelValue">0.0</span></label>
           <input type="range" id="peso_sobel" min="0" max="1" step="0.1" value="0.0">
         </div>
 
         <div class="param-group slider-group">
-          <label for="peso_media_cor">Peso da Média de Cor: <span id="pesoMediaCorValue">0.0</span></label>
+          <label for="peso_media_cor">Peso da Cor Média: <span id="pesoMediaCorValue">0.0</span></label>
           <input type="range" id="peso_media_cor" min="0" max="1" step="0.1" value="0.0">
         </div>
 
