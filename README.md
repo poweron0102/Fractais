@@ -2,6 +2,11 @@ Trabalho realizado durante o curso da disciplina de Visão Computacional, lecion
 
 # Instruções de Uso:
 
+
+````shell
+python -m venv .venv
+````
+
 ````shell
 .venv\Scripts\activate
 ````
@@ -13,5 +18,3 @@ pip install -r requirements.txt
 ```shell
 uvicorn src.web_main:app --reload
 ```
-
-
